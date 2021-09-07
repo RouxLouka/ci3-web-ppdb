@@ -58,12 +58,18 @@ h4{font-size:85%;}
 					<div style="color:white">
 					<label>Login</label><br \>
 					</div>
-                <form method="post">
+                <form method="post" action="<?php echo base_url('login/aksi_login'); ?>">
                     <div class="form-group">
                         <input type="email" class="form-control" placeholder="Email" name="email" autofocus required>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Password" name="password" required>
+                    </div>
+					<div class="form-group">
+					<select class="form-control" name="level">
+  						<option value="admin">Admin</option>
+	  					<option value="user">Mahasiswa</option>
+					</select>
                     </div>
                     <button type="submit" class="btn btn-primary" name="btn-login">Masuk</button>
 					<a class="btn btn-info text-light" href="<?php echo base_url('register'); ?>">Daftar</a>
