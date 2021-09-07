@@ -135,7 +135,7 @@
                 </div>
                 <!-- About Section Button-->
                 <div class="text-center mt-4">
-                    <a class="btn btn-xl btn-outline-light" href="login.php">
+                    <a class="btn btn-xl btn-outline-light" href="<?php echo base_url('login'); ?>">
                         Daftar
                     </a>
                 </div>
