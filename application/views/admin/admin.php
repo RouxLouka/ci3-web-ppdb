@@ -144,16 +144,21 @@
                                                 <th>Opsi</th>
 												
 											</tr></thead><tbody>
-										
+
+                                            
+                                            <?php foreach ($admin as $ad): ?>
                                                 
 												<tr>
-													<td></td>
-													<td></td><form method="post">
+													<td><?php echo $ad->id ?></td>
+													<td><?php echo $ad->email ?></td><form method="post">
                                                     <input type="hidden" value=" name="idadmin">
-                                                    <td><input type="submit" class="btn btn-danger btn-sm" name="hapus" value="Hapus"></td>
+                                                    <td><a href="<?php echo base_url(); ?>admin/delete/<?php echo $ad->id; ?>" 
+                                                    class="btn btn-danger" onclick="return confirm('Apakah Anda ingin manghapus Admin ini?');">Hapus</a>
+                                                        <!--<input type="submit" data-toggle="modal" data-target="#myModal" 
+                                                    class="btn btn-danger btn-sm" name="hapus" value="Hapus"></td>-->
                                                     </form>
 												</tr>		
-                                                
+                                                <?php endforeach; ?>
                                                 
 
 										</tbody>
@@ -187,19 +192,24 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
+                        <?php if ($this->session->flashdata('success')): ?>
+				            <div class="alert alert-success" role="alert">
+					            <?php echo $this->session->flashdata('success'); ?>
+				            </div>
+				                <?php endif; ?>
 							<h4 class="modal-title">Tambah Admin Baru</h4>
-						</div><form method="post">
+						</div><form action="<?php base_url('admin/add') ?>" method="post">
 						<div class="modal-body">
 							
 								<div class="form-group">
 									<label>Email</label>
 									<input name="adminemail" type="email" class="form-control" placeholder="Email">
 								</div>
+
 								<div class="form-group">
 									<label>Password</label>
 									<input name="adminpassword" type="password" class="form-control" placeholder="Password">
 								</div>
-								
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -211,6 +221,24 @@
 			</div>
 	
 
+            <!-- Modal untuk Delete -->
+            <div id="myModal" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Hapus Admin</h4>
+						</div><form method="post">
+						<div class="modal-body">
+                        <label>Apakah Anda yakin ingin menghapus Admin ini?</label>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+								<input type="submit" class="btn btn-danger" value="Hapus" name="adminbaru">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 	
 	<script>
 		$(document).ready(function() {
