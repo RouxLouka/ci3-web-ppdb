@@ -13,4 +13,8 @@ class User extends CI_Controller{
 	function index(){
 		$this->load->view('user/index');
 	}
+
+	function d_index(){
+		$this->load->view('user/daftar');
+	}
 }
