@@ -144,16 +144,18 @@
 											</tr></thead><tbody>
 											
 												
-                                                
+                                            <?php $no=1; foreach ($user as $au): ?>
 												<tr>
-													<td></td>
-													<td</td>
-													<td></td><form method="post">
+													<td><?php echo $no++ ?></td>
+													<td><?php echo $au->email ?></td>
+													<td><?php echo $au->tgldaftar ?></td><form method="post">
                                                     <input type="hidden" value="" name="iduser">
-                                                    <td><input type="submit" class="btn btn-danger btn-sm" name="hapus" value="Hapus"></td>
+                                                    <td><a href="<?php echo base_url(); ?>admin/delete_auser/<?php echo $au->id; ?>" 
+                                                    class="btn btn-danger" onclick="return confirm('Apakah Anda ingin manghapus Admin ini?');">Hapus</a>
+                                                        <!--<input type="submit" class="btn btn-danger btn-sm" name="hapus" value="Hapus"></td>-->
                                                     </form>
 												</tr>		
-                                                
+                                                <?php endforeach; ?>    
                                                 
 										</tbody>
 										</table>
