@@ -5,6 +5,7 @@ class M_kadmin extends CI_Model{
 
     public $id;
     public $email;
+    public $password;
 
     public function rules()
     {
@@ -33,9 +34,8 @@ class M_kadmin extends CI_Model{
     public function save()
     {
         $post = $this->input->post();
-        $this->id = uniqid();
-        $this->email = $post["email"];
-        $this->description = $post["description"];
+        $this->email = $post["adminemail"];
+        $this->password = $post["adminpassword"];
         return $this->db->insert($this->table, $this);
     }
 
@@ -44,7 +44,6 @@ class M_kadmin extends CI_Model{
         $post = $this->input->post();
         $this->id = $post["id"];
         $this->email = $post["email"];
-        $this->description = $post["description"];
         return $this->db->update($this->table, $this, array('id' => $post['id']));
     }
 
