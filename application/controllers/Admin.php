@@ -4,7 +4,10 @@ class Admin extends CI_Controller{
     //login
 	function __construct(){
 		parent::__construct();
+        $this->load->model("m_aform");
         $this->load->model("m_kadmin");
+        $this->load->library('form_validation');
+        $this->load->model("m_auser");
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("login"));
 		}
@@ -14,12 +17,36 @@ class Admin extends CI_Controller{
 		$this->load->view('admin/index');
 	}
     //==============================Formulir======================================================================================================
+    public function k_construct_form()
+    {
+        parent::__construct();
+        
+        $this->load->library('form_validation');
+    }
+
     function f_index(){
-		$this->load->view('admin/form');
+        $a_form["form"] = $this->m_aform->getAll();
+		$this->load->view('admin/form', $a_form);
 	}
     //==============================Kelola User======================================================================================================
+    public function k_construct_user()
+    {
+        parent::__construct();
+       
+        $this->load->library('form_validation');
+    }
     function u_index(){
-        $this->load->view('admin/user');
+        $auser["user"] = $this->m_auser->getAll();
+        $this->load->view('admin/user', $auser);
+    }
+
+    public function delete_auser($id=null)
+    {
+        if (!isset($id)) show_404();
+        
+        if ($this->m_auser->delete_auser($id)) {
+            redirect(base_url('admin/u_index'));
+        }
     }
 
     //==============================Kelola Admin======================================================================================================
@@ -35,19 +62,25 @@ class Admin extends CI_Controller{
         $this->load->view('admin/admin', $data);
     }
 
-    public function add()
-    {
-        $admin = $this->m_kadmin;
-        $validation = $this->form_validation;
-        $validation->set_rules($admin->rules());
+    public function save()
+	{
+		$this->form_validation->set_rules('adminemail','email','required');
+		$this->form_validation->set_rules('adminpassword','password','required');
+		if ($this->form_validation->run()==true)
+        {
+            $password= $this->input->post('adminpassword');
+			$data['email'] = $this->input->post('adminemail');
+			$data['password'] = md5($password);
+            //'password'=>md5($adminpassword)
 
-        if ($validation->run()) {
-            $admin->save();
-            $this->session->set_flashdata('success', 'Berhasil disimpan');
-        }
-
-        $this->load->view("admin/a_index");
-    }
+			$this->m_kadmin->save($data);
+			redirect(base_url('Admin/a_index'));
+		}
+		else
+		{
+			redirect(base_url('Admin/a_index'));
+		}
+	}
 
     /*public function edit($id = null)
     {
@@ -77,6 +110,10 @@ class Admin extends CI_Controller{
         }
     }
 
+ //==============================Kelola Admin======================================================================================================
+ function v_index(){
+    $this->load->view('admin/view');
+}
     //==============================Fungsi Logout======================================================================================================
     function logout(){
         $this->session->sess_destroy();
